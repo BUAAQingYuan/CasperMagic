@@ -14,7 +14,7 @@ CasperMagic的执行环境需要安装PlantomJS和CasperJS,并将路径配置到
 
 ActionChain的配置相当简单
 >ActionChain  chain=new ActionChain();
- ActionNode  node=new ActionNode();
+>ActionNode  node=new ActionNode();
  node.setNodetype(ActionNodeType.Click).setEventElement("div.article-content p a");
  ActionFactory.CreateActionChain(node).ChainEnd("click.js");
  Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,"click.js").setEnableclick(true)).run();
