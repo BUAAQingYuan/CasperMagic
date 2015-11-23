@@ -4,7 +4,7 @@ CasperMagic是基于PlantomJS&CasperJS和WebMagic的一个整合。CasperJS可�
 
 ![CasperJS](http://docs.casperjs.org/en/latest/_images/casperjs-logo.png "CasperJS")
 
-                           ![WebMagic](https://raw.github.com/code4craft/webmagic/master/assets/logo.jpg "WebMagic")
+![WebMagic](https://raw.github.com/code4craft/webmagic/master/assets/logo.jpg "WebMagic")
 
 
 ##工作模式
