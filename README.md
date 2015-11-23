@@ -13,11 +13,13 @@ CasperMagic是基于PlantomJS&CasperJS和WebMagic的一个整合。CasperJS可�
 CasperMagic的执行环境需要安装PlantomJS和CasperJS,并将路径配置到CasperMagic。CasperMagic根据ActionChain生成相应的js脚本，然后执行脚本得到网页数据。
 
 ActionChain的配置相当简单
->ActionChain  chain=new ActionChain();
->ActionNode  node=new ActionNode();
+```
+ ActionChain  chain=new ActionChain();
+ ActionNode  node=new ActionNode();
  node.setNodetype(ActionNodeType.Click).setEventElement("div.article-content p a");
  ActionFactory.CreateActionChain(node).ChainEnd("click.js");
  Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,"click.js").setEnableclick(true)).run();
 
-JsDownload是CasperMagic实现的获取动态网页的下载器。
+```
 
+JsDownload是CasperMagic实现的获取动态网页的下载器。
