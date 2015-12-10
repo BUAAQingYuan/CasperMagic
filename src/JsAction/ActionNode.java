@@ -17,8 +17,10 @@ public class ActionNode {
 		private  ClickLabel label;
 		
 		//检测元素, 
+		private  boolean  ischeck=false;
 		private  String  checkElement;
-		
+		//检测超时
+		private  int     checktimeout=ActionFactory.checktimeout;
 		
 		//构造器
 		public   ActionNode()
@@ -29,10 +31,14 @@ public class ActionNode {
 		public String getDataElement() {
 			return dataElement;
 		}
+		
+		//设置form表单元素
 		public ActionNode setDataElement(String dataElement) {
 			this.dataElement = dataElement;
+			this.ischeck=false;
 			return this;
 		}
+						
 		public Map<String,String> getAttribute() {
 			return attribute;
 		}
@@ -70,6 +76,14 @@ public class ActionNode {
 
 		public ActionNode setCheckElement(String checkElement) {
 			this.checkElement = checkElement;
+			this.ischeck=true;
+			return this;
+		}
+		
+		public ActionNode setCheckElement(String checkElement,int checktimeout) {
+			this.checkElement = checkElement;
+			this.checktimeout=checktimeout;
+			this.ischeck=true;
 			return this;
 		}
 
@@ -80,6 +94,22 @@ public class ActionNode {
 		public ActionNode setLabel(ClickLabel label) {
 			this.label = label;
 			return this;
+		}
+
+		public boolean isIscheck() {
+			return ischeck;
+		}
+
+		public void setIscheck(boolean ischeck) {
+			this.ischeck = ischeck;
+		}
+
+		public int getChecktimeout() {
+			return checktimeout;
+		}
+
+		public void setChecktimeout(int checktimeout) {
+			this.checktimeout = checktimeout;
 		}
 
 		

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import JsAction.ActionChain;
+import JsAction.ActionFactory;
 import JsAction.ActionNode;
 import JsAction.ClickLabel;
 import JsAction.clickCrawler;
@@ -70,6 +71,14 @@ public class JsFactory {
 		content.add("var  charset=casper.cli.get('charset');");
 		content.add("var  isaction=casper.cli.get('action');");
 		content.add("phantom.outputEncoding=charset;");
+		
+		content.add("var  pagecontent=true;");
+		content.add("var  checktimeout="+ActionFactory.checktimeout);
+		content.add("if(casper.cli.has('checktimeout'))");
+		content.add("{");
+		content.add("      checktimeout=casper.cli.get('checktimeout');");
+		content.add("}");
+		
         content.add("casper.start(url);");
         return content;
 	}
@@ -78,33 +87,57 @@ public class JsFactory {
 	{
 		List<String> content=new ArrayList<String>();
 		content.add("casper.then(function() {");
-		content.add("      this.echo(this.getPageContent());");
+		content.add("         if(pagecontent)");
+		content.add("         {");
+		content.add("              this.echo(this.getPageContent());");
+		content.add("         }");
         content.add("});");
         content.add("casper.run();");
         
         return content;
 	}
 	
-	public   List<String> getJsForm(String  selector,Map<String,String> attributes)
+	public   List<String> getJsForm(ActionNode node)
 	{
+		String selector=node.getDataElement();
+		Map<String,String> attributes=node.getAttribute();
+		boolean addcheck=node.isIscheck();
 		
 		List<String> content=new ArrayList<String>();
 		content.add("if(Boolean(isaction))");
 		content.add("{");
 		content.add("    casper.then(function() {");
 		content.add("         this.fill('"+selector+"',{");
+		
+		int  mapsize=attributes.entrySet().size();
+		int  j=1;
 		for(Entry<String,String> one:attributes.entrySet())
-		{
-			content.add("                 '"+one.getKey()+"': '"+one.getValue()+"'");
+		{	
+			if(j<mapsize)
+			{
+				content.add("                 '"+one.getKey()+"': '"+one.getValue()+"' ,");
+			}
+			else{
+				content.add("                 '"+one.getKey()+"': '"+one.getValue()+"' ");
+			}
+			j++;
 		}
         content.add("         },true);");
         
         //check
-        content.add("         this.waitFor(function check(){");
-        content.add("             return this.evaluate(function(){");
-        content.add("                  return document.querySelectorAll('#content_left').length > 0;");
-        content.add("                          });");
-        content.add("         });");
+        if(addcheck)
+        {
+        	content.add("         this.waitFor(function check(){");
+        	content.add("             return this.evaluate(function(){");
+        	content.add("                  return document.querySelectorAll('"+node.getCheckElement()+"').length > 0;");
+        	content.add("                          });");
+        	content.add("         },function then(){");
+        	content.add("                 pagecontent=true;");
+        	content.add("         },function timeout(){");
+        	content.add("                 this.echo('Wait timeout of "+node.getChecktimeout()+"ms expired. i cannot find the checked tag!');");
+        	content.add("                 pagecontent=false;");
+        	content.add("         },checktimeout);");
+        }
         
         content.add("    });");
         content.add("}");
@@ -152,7 +185,7 @@ public class JsFactory {
 			switch(node.getNodetype())
 			{
 		     	case 2:
-		     		AddJs(jsname,getJsForm(node.getDataElement(),node.getAttribute()));
+		     		AddJs(jsname,getJsForm(node));
 		     		break;
 		     	case 3:
 		     		AddJs(jsname,getJsClickLabel(node.getLabel()));

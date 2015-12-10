@@ -10,10 +10,21 @@ import JsFactory.JsFactory;
 public class ActionChain {
 	
 	  private List<ActionNode>  chain=new ArrayList<ActionNode>();
+	  private String   jsname;
+	  private int        checktimeout;
+	  
+	  
 	
 	  public  ActionChain   addActionNode(ActionNode node)
 	  {
 		  this.chain.add(node);
+		  
+		  //获取node中的全局参数
+		  if(node.isIscheck())
+		  {
+			  this.checktimeout=node.getChecktimeout();
+		  }
+		  
 		  return this;
 	  }
 	  
@@ -22,6 +33,7 @@ public class ActionChain {
 	  {
 		  //生成js
 		   new  JsFactory().CreateChainJs(this, jsname);
+		   this.jsname=jsname;
 		   return this;
 	  }
 	  
@@ -39,6 +51,22 @@ public class ActionChain {
 		node.setNodetype(ActionNodeType.Form).setDataElement("form#form").setAttribute(attribute);
 		ActionFactory.CreateActionChain(node).ChainEnd("first.js");
 		
+	}
+
+	public String getJsname() {
+		return jsname;
+	}
+
+	public void setJsname(String jsname) {
+		this.jsname = jsname;
+	}
+
+	public int getChecktimeout() {
+		return checktimeout;
+	}
+
+	public void setChecktimeout(int checktimeout) {
+		this.checktimeout = checktimeout;
 	}
 
 }
