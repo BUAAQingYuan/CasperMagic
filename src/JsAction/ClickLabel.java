@@ -1,5 +1,19 @@
 package JsAction;
 
+import Crawler.JsDownload;
+
+/*
+ * for example:
+ * <a href="...">My link is beautiful</a>
+ * 
+ * In CasperJS,this will be 
+ * 			this.clickLabel('My link is beautiful', 'a');
+ * type=a,value=My link is beautiful
+ * 
+ * before this,you should set 
+ * 			new JsDownload(env,chain).setEnableclick(true);
+ */
+
 public class ClickLabel {
 		private  String   type;
 		private  String   value;
