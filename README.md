@@ -17,8 +17,8 @@ ActionChain的配置相当简单
  ActionChain  chain=new ActionChain();
  ActionNode  node=new ActionNode();
  node.setNodetype(ActionNodeType.Click).setEventElement("div.article-content p a");
- ActionFactory.CreateActionChain(node).ChainEnd("click.js");
- Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,"click.js").setEnableclick(true)).run();
+ chain=ActionFactory.CreateActionChain(node).ChainEnd("click.js");
+ Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(true)).run();
 
 ```
 
