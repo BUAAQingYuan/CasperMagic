@@ -42,4 +42,12 @@ ActionChain的配置相当简单
  Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(false)).run();
 ```
 
+### InputText Action
+```
+ ActionNode  node=new ActionNode();
+ node.setNodetype(ActionNodeType.InputText).setInput(new InputText("selector","value"));
+ ActionChain  chain=ActionFactory.CreateActionChain(node).ChainEnd("input.js");
+ Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(false)).run();
+```
+
 JsDownload是CasperMagic实现的获取动态网页的下载器。
