@@ -35,8 +35,8 @@ ActionChain的配置相当简单
  ActionNode  node=new ActionNode();
  // 表单数据
  Map<String,String>  attribute=new HashMap<String,String>();
-	attribute.put("Login","test");
-	attribute.put("Password", "123456");
+ attribute.put("Login","test");
+ attribute.put("Password", "123456");
  node.setNodetype(ActionNodeType.Form).setDataElement("form#form").setAttribute(attribute).setCheckElement("div#link_list",7000);
  ActionChain  chain=ActionFactory.CreateActionChain(node).ChainEnd("form.js");
  Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(false)).run();
