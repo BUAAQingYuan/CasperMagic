@@ -13,13 +13,33 @@ CasperMagic是基于PlantomJS&CasperJS和WebMagic的一个整合。CasperJS可�
 CasperMagic的执行环境需要安装PlantomJS和CasperJS,并将路径配置到CasperMagic。CasperMagic根据ActionChain生成相应的js脚本，然后执行脚本得到网页数据。
 
 ActionChain的配置相当简单
+
+### Click Action
 ```
- ActionChain  chain=new ActionChain();
  ActionNode  node=new ActionNode();
  node.setNodetype(ActionNodeType.Click).setEventElement("div.article-content p a");
- chain=ActionFactory.CreateActionChain(node).ChainEnd("click.js");
+ ActionChain  chain=ActionFactory.CreateActionChain(node).ChainEnd("click.js");
  Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(true)).run();
+```
 
+### Wait Action
+```
+ ActionNode  node=new ActionNode();
+ node.setNodetype(ActionNodeType.Wait).setCheckElement("div#abstract div div p", 60000);
+ ActionChain  chain=ActionFactory.CreateActionChain(node).ChainEnd("wait.js");
+ Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(false)).run();
+```
+
+### Form Action
+```
+ ActionNode  node=new ActionNode();
+ // 表单数据
+ Map<String,String>  attribute=new HashMap<String,String>();
+	attribute.put("Login","test");
+	attribute.put("Password", "123456");
+ node.setNodetype(ActionNodeType.Form).setDataElement("form#form").setAttribute(attribute).setCheckElement("div#link_list",7000);
+ ActionChain  chain=ActionFactory.CreateActionChain(node).ChainEnd("form.js");
+ Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(false)).run();
 ```
 
 JsDownload是CasperMagic实现的获取动态网页的下载器。
