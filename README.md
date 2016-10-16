@@ -22,6 +22,19 @@ ActionChain的配置相当简单
  Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(true)).run();
 ```
 
+for example:
+```
+<a href="...">My link is beautiful</a>
+```
+
+```
+ ActionNode  node=new ActionNode();
+ node.setNodetype(ActionNodeType.ClickLabel).setLabel(new ClickLabel("a","My link is beautiful"));
+ ActionChain  chain=ActionFactory.CreateActionChain(node).ChainEnd("clicklabel.js");
+ Spider.create(this).startUrls(url).setDownloader(new JsDownload(env,chain).setEnableclick(true)).run();
+```
+
+
 ### Wait Action
 ```
  ActionNode  node=new ActionNode();
